@@ -1,5 +1,7 @@
 package com.MariaRGMorais.Vivere.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,29 +10,41 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@Entity 
+@Entity
 @Table(name = "users")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private long userId;
 
-	@Column(name = "Name")
+	@Column(name = "dateTime", columnDefinition = "DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date dateTime;
+
+	@Column(name = "Name", nullable = false, length = 30)
 	private String name;
 
-	@Column (unique=true, name = "Login")
+	@Column(name = "Login", nullable = false, unique = true, length = 15)
 	private String login;
 
-	@Column(name = "Email")
+	@Column(name = "Email", nullable = false, length = 100)
 	private String email;
 
-	@Column(name = "Status")
+	@Column(name = "Password", nullable = false, length = 10)
+	private String password;
+
+	@Column(name = "Phone", nullable = false, length = 11)
+	private String phone;
+
+	@Column(name = "Status", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	
-	@Column(name = "Type")
+
+	@Column(name = "Type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
@@ -38,24 +52,57 @@ public class User {
 
 	}
 
-	public User(String firstName, String email) {
+	/**
+	 * @param id
+	 * @param dateTime
+	 * @param name
+	 * @param login
+	 * @param email
+	 * @param password
+	 * @param phone
+	 * @param status
+	 * @param type
+	 */
+	public User(long id, Date dateTime, String name, String login, String email, String password, String phone,
+			Status status, Type type) {
 		super();
-		this.name = firstName;
+		this.userId = id;
+		this.dateTime = dateTime;
+		this.name = name;
+		this.login = login;
 		this.email = email;
-	}
-
-	public enum Status {
-		ADMINISTRADOR, OPERADOR;
-
-	}
-
-	public enum Type {
-		ATIVO, CANCELADO;
-
+		this.password = password;
+		this.phone = phone;
+		this.status = status;
+		this.type = type;
 	}
 
 	public long getId() {
-		return id;
+		return userId;
+	}
+
+	public Date getDateTime() {
+		return dateTime;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getPhone() {
+		return phone;
 	}
 
 	public Status getStatus() {
@@ -66,39 +113,49 @@ public class User {
 		return type;
 	}
 
-	public String getFirstName() {
-		return name;
-	}
-
-	public String getLastName() {
-		return login;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
 	public void setId(long id) {
-		this.id = id;
+		this.userId = id;
 	}
 
-	public void setFirstName(String firstName) {
-		this.name = firstName;
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
 	}
 
-	public void setLastName(String lastName) {
-		this.login = lastName;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public void setStatus(Status status) {
 		this.status = status;
 	}
 
+	public enum Status {
+		ADMIN, OPERATOR;
+
+	}
+
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public enum Type {
+		ACTIVE, CANCELED;
+
 	}
 }

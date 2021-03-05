@@ -21,41 +21,43 @@ import com.MariaRGMorais.Vivere.repository.ClientRepository;
 @RequestMapping("/api/clients")
 public class ClientController {
 
-    @Autowired
-    private ClientRepository clientRepository;
+	@Autowired
+	private ClientRepository clientRepository;
 
-    // get all clients
-    @GetMapping
-    public List < Client > getAllClients() {
-        return this.clientRepository.findAll();
-    }
+	// get all clients
+	@GetMapping
+	public List<Client> getAllClients() {
+		return this.clientRepository.findAll();
+	}
 
-    // get client by id
-    @GetMapping("/{id}")
-    public Client getClientById(@PathVariable(value = "id") int clientId) {
-        return this.clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
-    }
+	// get client by cpfcnpj
+	@GetMapping("/{cpfcnpj}")
+	public Client getClientByCpfcnpj(@PathVariable(value = "cpfcnpj") int clientCpfcnpj) {
+		return this.clientRepository.findById(clientCpfcnpj).orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientCpfcnpj));
+	}
 
-    // create client
-    @PostMapping
-    public Client createClient(@RequestBody Client client) {
-        return this.clientRepository.save(client);
-    }
+	// create client
+	@PostMapping
+	public Client createClient(@RequestBody Client client) {
+		return this.clientRepository.save(client);
+	}
 
-    // update client
-    @PutMapping("/{id}")
-    public Client updateClient(@RequestBody Client client, @PathVariable("id") int clientId) {
-    	Client existingClient = this.clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
-        existingClient.setName(client.getName());
-        existingClient.setEmail(client.getEmail());
-        return this.clientRepository.save(existingClient);
-    }
+	// update client
+	@PutMapping("/{id}")
+	public Client updateClient(@RequestBody Client client, @PathVariable("id") int clientId) {
+		Client existingClient = this.clientRepository.findById(clientId)
+				.orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
+		existingClient.setName(client.getName());
+		existingClient.setEmail(client.getEmail());
+		return this.clientRepository.save(existingClient);
+	}
 
-    // delete client by id
-    @DeleteMapping("/{id}")
-    public ResponseEntity < Client > deleteClient(@PathVariable("id") int clientId) {
-    	Client existingClient = this.clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
-        this.clientRepository.delete(existingClient);
-        return ResponseEntity.ok().build();
-    }
+	// delete client by id
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Client> deleteClient(@PathVariable("id") int clientId) {
+		Client existingClient = this.clientRepository.findById(clientId)
+				.orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
+		this.clientRepository.delete(existingClient);
+		return ResponseEntity.ok().build();
+	}
 }

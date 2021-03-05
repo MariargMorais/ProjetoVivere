@@ -1,7 +1,5 @@
 package com.MariaRGMorais.Vivere;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,10 +22,10 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    // get all users
-    @GetMapping
-    public List < User > getAllUsers() {
-        return this.userRepository.findAll();
+    // get user by Email
+    @GetMapping("/{email}")
+    public User getUserByEmail(@PathVariable(value = "email") int userEmail) {
+        return this.userRepository.findById(userEmail).orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userEmail));
     }
 
     // get user by id
@@ -46,8 +44,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@RequestBody User user, @PathVariable("id") int userId) {
         User existingUser = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
+        existingUser.setName(user.getName());
         existingUser.setEmail(user.getEmail());
         return this.userRepository.save(existingUser);
     }
