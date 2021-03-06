@@ -1,5 +1,8 @@
 package com.MariaRGMorais.Vivere;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MariaRGMorais.Vivere.entity.Cashbook;
+import com.MariaRGMorais.Vivere.entity.Cashbook.Type;
 import com.MariaRGMorais.Vivere.exception.ResourceNotFoundException;
 import com.MariaRGMorais.Vivere.repository.CashbookRepository;
 
@@ -22,22 +26,35 @@ public class CashbookController {
 	@Autowired
 	private CashbookRepository cashbookRepository;
 
-	// get cashbooks by client id
-	@GetMapping("/{client_id}")
-    public Cashbook getCashbookByClientId(@PathVariable(value = "ClientId") int ClientId) {
-        return this.cashbookRepository.findById(ClientId).orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + ClientId));
-    }
-
-	// get cashbook by id
-	@GetMapping("/{id}")
-    public Cashbook getCashbookById(@PathVariable(value = "id") int cashbookId) {
-        return this.cashbookRepository.findById(cashbookId).orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + cashbookId));
-    }
-
 	// create cashbook
 	@PostMapping
 	public Cashbook createCashbook(@RequestBody Cashbook cashbook) {
-		return this.cashbookRepository.save(cashbook);
+
+		if (cashbook.getType() == Type.DEBIT || cashbook.getType() == Type.CREDIT) {
+			LocalDateTime data = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			cashbook.setDateTime(data.format(formatter));
+
+			return this.cashbookRepository.save(cashbook);
+			// return livroCaixaModel;
+		} else {
+			return cashbook;
+		}
+
+	}
+
+	// get cashbooks by client id
+	@GetMapping("/{clientid}")
+	public Cashbook getCashbookByClientId(@PathVariable(value = "ClientId") int ClientId) {
+		return this.cashbookRepository.findById(ClientId)
+				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + ClientId));
+	}
+
+	// get cashbook by id
+	@GetMapping("/{cashbookid}")
+	public Cashbook getCashbookById(@PathVariable(value = "id") int cashbookId) {
+		return this.cashbookRepository.findById(cashbookId)
+				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + cashbookId));
 	}
 
 	// update cashbook

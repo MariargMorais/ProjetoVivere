@@ -1,7 +1,5 @@
 package com.MariaRGMorais.Vivere;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,22 +22,24 @@ public class ClientController {
 	@Autowired
 	private ClientRepository clientRepository;
 
+	// create client
+	@PostMapping
+	public Client createClient(@RequestBody Client client) {
+		return this.clientRepository.save(client);
+	}
+
 	// get all clients
-	@GetMapping
-	public List<Client> getAllClients() {
-		return this.clientRepository.findAll();
+	@GetMapping("/{clientid}")
+	public Client getClientById(@PathVariable(value = "clientId") int clientId) {
+		return this.clientRepository.findById(clientId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + clientId));
 	}
 
 	// get client by cpfcnpj
 	@GetMapping("/{cpfcnpj}")
 	public Client getClientByCpfcnpj(@PathVariable(value = "cpfcnpj") int clientCpfcnpj) {
-		return this.clientRepository.findById(clientCpfcnpj).orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientCpfcnpj));
-	}
-
-	// create client
-	@PostMapping
-	public Client createClient(@RequestBody Client client) {
-		return this.clientRepository.save(client);
+		return this.clientRepository.findById(clientCpfcnpj)
+				.orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientCpfcnpj));
 	}
 
 	// update client

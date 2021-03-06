@@ -19,41 +19,45 @@ import com.MariaRGMorais.Vivere.repository.UserRepository;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    // get user by Email
-    @GetMapping("/{email}")
-    public User getUserByEmail(@PathVariable(value = "email") int userEmail) {
-        return this.userRepository.findById(userEmail).orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userEmail));
-    }
+	// create user
+	@PostMapping
+	public User createUser(@RequestBody User user) {
+		return this.userRepository.save(user);
+	}
 
-    // get user by id
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable(value = "id") int userId) {
-        return this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-    }
+	// update user
+	@PutMapping("/updateId/{id}")
+	public User updateUser(@RequestBody User user, @PathVariable("id") int userId) {
+		User existingUser = this.userRepository.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
+		existingUser.setName(user.getName());
+		existingUser.setEmail(user.getEmail());
+		return this.userRepository.save(existingUser);
+	}
 
-    // create user
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return this.userRepository.save(user);
-    }
+	// get user by id
+	@GetMapping("/getUser/{userId}")
+	public User getUserById(@PathVariable(value = "userId") int userId) {
+		return this.userRepository.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
+	}
 
-    // update user
-    @PutMapping("/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable("id") int userId) {
-        User existingUser = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-        existingUser.setName(user.getName());
-        existingUser.setEmail(user.getEmail());
-        return this.userRepository.save(existingUser);
-    }
+	// get user by Email
+	@GetMapping("/getEmail/{email}")
+	public User getUserByEmail(@PathVariable(value = "email") int userEmail) {
+		return this.userRepository.findById(userEmail)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userEmail));
+	}
 
-    // delete user by id
-    @DeleteMapping("/{id}")
-    public ResponseEntity < User > deleteUser(@PathVariable("id") int userId) {
-        User existingUser = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-        this.userRepository.delete(existingUser);
-        return ResponseEntity.ok().build();
-    }
+	// delete user by id
+	@DeleteMapping("/deleteId/{id}")
+	public ResponseEntity<User> deleteUser(@PathVariable("id") int userId) {
+		User existingUser = this.userRepository.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
+		this.userRepository.delete(existingUser);
+		return ResponseEntity.ok().build();
+	}
 }
