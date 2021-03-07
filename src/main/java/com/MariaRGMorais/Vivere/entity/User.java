@@ -47,12 +47,12 @@ public class User {
 	private Type type;
 
 	public enum Status {
-		ADMIN, OPERATOR;
+		A, O;
 
 	}
 
 	public enum Type {
-		ACTIVE, CANCELED;
+		A, C;
 
 	}
 }

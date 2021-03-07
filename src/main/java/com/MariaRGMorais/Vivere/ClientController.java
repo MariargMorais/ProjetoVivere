@@ -1,5 +1,8 @@
 package com.MariaRGMorais.Vivere;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,45 +19,57 @@ import com.MariaRGMorais.Vivere.exception.ResourceNotFoundException;
 import com.MariaRGMorais.Vivere.repository.ClientRepository;
 
 @RestController
-@RequestMapping("/api/clients")
+@RequestMapping("/clients")
 public class ClientController {
 
 	@Autowired
 	private ClientRepository clientRepository;
 
 	// create client
-	@PostMapping
+	@PostMapping("/create")
 	public Client createClient(@RequestBody Client client) {
+
+		LocalDateTime data = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		client.setDateTime(data.format(formatter));
+
 		return this.clientRepository.save(client);
 	}
 
-	// get all clients
-	@GetMapping("/{clientid}")
+	// get clients (transformar em all)
+	@GetMapping("/allClients")
 	public Client getClientById(@PathVariable(value = "clientId") int clientId) {
 		return this.clientRepository.findById(clientId)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + clientId));
 	}
 
 	// get client by cpfcnpj
-	@GetMapping("/{cpfcnpj}")
+	@GetMapping("/cpfCnpj/{cpfcnpj}")
 	public Client getClientByCpfcnpj(@PathVariable(value = "cpfcnpj") int clientCpfcnpj) {
 		return this.clientRepository.findById(clientCpfcnpj)
 				.orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientCpfcnpj));
 	}
 
 	// update client
-	@PutMapping("/{id}")
-	public Client updateClient(@RequestBody Client client, @PathVariable("id") int clientId) {
+	@PutMapping("/update/{clientId}")
+	public Client updateClient(@RequestBody Client client, @PathVariable("clientIdid") int clientId) {
 		Client existingClient = this.clientRepository.findById(clientId)
 				.orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
+		//existingClient.setDateTime(client.getDateTime());
 		existingClient.setName(client.getName());
+		existingClient.setCpfcnpj(client.getCpfcnpj());
+		existingClient.setAdress(client.getAdress());
+		existingClient.setCity(client.getCity());
+		existingClient.setState(client.getState());
+		existingClient.setPostalCode(client.getPostalCode());
+		existingClient.setPhone(client.getPhone());
 		existingClient.setEmail(client.getEmail());
 		return this.clientRepository.save(existingClient);
 	}
 
 	// delete client by id
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Client> deleteClient(@PathVariable("id") int clientId) {
+	@DeleteMapping("/delete/{clientId}")
+	public ResponseEntity<Client> deleteClient(@PathVariable("clientId") int clientId) {
 		Client existingClient = this.clientRepository.findById(clientId)
 				.orElseThrow(() -> new ResourceNotFoundException("Client not found with id :" + clientId));
 		this.clientRepository.delete(existingClient);

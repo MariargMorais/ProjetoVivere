@@ -19,10 +19,10 @@ public class Cashbook {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long cashbookId;
+	private int cashbookId;
 
-	@JoinColumn(name = "id")
-	private long clientId;
+	@JoinColumn(name = "clientId", nullable = false)
+	private int clientId;
 
 	@Column(name = "dateTime")
 	public String dateTime;
@@ -36,13 +36,12 @@ public class Cashbook {
 	@Column(name = "Type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Type type;
-	
+
 	@Column(name = "Value", nullable = false, precision = 12, scale = 2)
 	private float value;
 
-	
 	public enum Type {
-		DEBIT, CREDIT;
-	
+		D, C;
+
 	}
 }

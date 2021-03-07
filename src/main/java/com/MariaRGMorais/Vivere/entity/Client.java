@@ -16,32 +16,32 @@ public class Client {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long clientId;
+	private int clientId;
 
 	@Column(name = "dateTime", columnDefinition = "DATETIME")
 	public String dateTime;
 
-	@Column(name = "Name", nullable = false, length = 30)
+	@Column(name = "name", nullable = false, length = 30)
 	private String name;
 
 	@Column(name = "cpfcnpj", nullable = false, length = 14)
 	private String cpfcnpj;
 
-	@Column(name = "Adress", nullable = false, length = 50)
-	private String adress;
+	@Column(name = "address", nullable = false, length = 50)
+	private String address;
 
-	@Column(name = "City", nullable = false, length = 40)
+	@Column(name = "city", nullable = false, length = 40)
 	private String city;
 
-	@Column(name = "State", nullable = false, length = 2)
+	@Column(name = "state", nullable = false, length = 2)
 	private String state;
 
-	@Column(name = "PostalCode", nullable = false, length = 8)
+	@Column(name = "postalCode", nullable = false, length = 8)
 	private String postalCode;
 
-	@Column(name = "Phone", nullable = false, length = 11)
+	@Column(name = "phone", nullable = false, length = 11)
 	private String phone;
 
-	@Column(name = "Email", nullable = false, length = 100)
+	@Column(name = "email", nullable = false, length = 100)
 	private String email;
 }
