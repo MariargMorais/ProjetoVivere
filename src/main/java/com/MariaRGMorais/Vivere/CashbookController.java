@@ -58,10 +58,8 @@ public class CashbookController {
 		Cashbook existingCashbook = this.cashbookRepository.findById(cashbookId)
 				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + cashbookId));
 		existingCashbook.setCashbookId(cashbook.getCashbookId());
-		existingCashbook.setClientId(cashbook.getClientId());
 		//existingCashbook.setDateTime(cashbook.getDateTime());
 		existingCashbook.setDescription(cashbook.getDescription());
-		existingCashbook.setEmail(cashbook.getEmail());
 		existingCashbook.setType(cashbook.getType());
 		existingCashbook.setValue(cashbook.getValue());
 		return this.cashbookRepository.save(existingCashbook);

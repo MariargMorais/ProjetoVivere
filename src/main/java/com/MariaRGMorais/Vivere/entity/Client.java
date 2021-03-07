@@ -1,10 +1,17 @@
 package com.MariaRGMorais.Vivere.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -12,14 +19,28 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "clients")
-public class Client {
+public class Client implements Serializable{
+	
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JoinColumn(name = "clientId", referencedColumnName = "codClient")
 	private int clientId;
+	
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "clientFK", nullable = false)
+	private List<Cashbook> cashbook;
 
 	@Column(name = "dateTime", columnDefinition = "DATETIME")
-	public String dateTime;
+	private String dateTime;
 
 	@Column(name = "name", nullable = false, length = 30)
 	private String name;
@@ -34,10 +55,10 @@ public class Client {
 	private String city;
 
 	@Column(name = "state", nullable = false, length = 2)
-	private String state;
+	private char state;
 
 	@Column(name = "postalCode", nullable = false, length = 8)
-	private String postalCode;
+	private char postalCode;
 
 	@Column(name = "phone", nullable = false, length = 11)
 	private String phone;

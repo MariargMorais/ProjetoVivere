@@ -58,7 +58,7 @@ public class ClientController {
 		//existingClient.setDateTime(client.getDateTime());
 		existingClient.setName(client.getName());
 		existingClient.setCpfcnpj(client.getCpfcnpj());
-		existingClient.setAdress(client.getAdress());
+		existingClient.setAddress(client.getAddress());
 		existingClient.setCity(client.getCity());
 		existingClient.setState(client.getState());
 		existingClient.setPostalCode(client.getPostalCode());
