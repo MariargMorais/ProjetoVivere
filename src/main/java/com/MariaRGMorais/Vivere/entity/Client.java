@@ -55,10 +55,10 @@ public class Client implements Serializable{
 	private String city;
 
 	@Column(name = "state", nullable = false, length = 2)
-	private char state;
+	private String state;
 
 	@Column(name = "postalCode", nullable = false, length = 8)
-	private char postalCode;
+	private String postalCode;
 
 	@Column(name = "phone", nullable = false, length = 11)
 	private String phone;

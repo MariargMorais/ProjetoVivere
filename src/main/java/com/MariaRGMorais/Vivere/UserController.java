@@ -52,8 +52,8 @@ public class UserController {
 
 	// get user by Email
 	@GetMapping("/email/{email}")
-	public User getUserByEmail(@PathVariable(value = "email") String userEmail) {
-		return this.userRepository.findByEmail(userEmail);
+	public User getUserByEmail(@PathVariable(value = "email") String email) {
+		return this.userRepository.findByEmail(email);
 	}
 
 	// update user
@@ -66,7 +66,6 @@ public class UserController {
 	// delete user by id
 	@DeleteMapping("/delete/{userId}")
 	public void deleteUser(@PathVariable("userId") User userId) {
-
 		userRepository.delete(userId);
 
 	}

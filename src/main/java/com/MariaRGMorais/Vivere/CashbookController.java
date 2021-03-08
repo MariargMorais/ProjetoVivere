@@ -1,10 +1,6 @@
 package com.MariaRGMorais.Vivere;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,48 +25,35 @@ public class CashbookController {
 	@PostMapping("/create")
 	public Cashbook createCashbook(@RequestBody Cashbook cashbook) {
 
-		LocalDateTime data = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		cashbook.setDateTime(data.format(formatter));
-
 		return this.cashbookRepository.save(cashbook);
 		// return livroCaixaModel;
 
 	}
 
 	// get cashbooks by client id
-	@GetMapping("/id/{clientid}")
-	public Cashbook getCashbookByClientId(@PathVariable(value = "ClientId") int ClientId) {
-		return this.cashbookRepository.findById(ClientId)
-				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with client id :" + ClientId));
+	@GetMapping("/clientId/{clientId}")
+	public Cashbook getCashbookByClientId(@PathVariable(value = "clientId") int clientId) {
+		return this.cashbookRepository.findById(clientId)
+				.orElseThrow(() -> new ResourceNotFoundException("Client not found with client id :" + clientId));
 	}
 
 	// get cashbook by id
-	@GetMapping("/id/{cashbookid}")
+	@GetMapping("/id/{cashbookId}")
 	public Cashbook getCashbookById(@PathVariable(value = "cashbookId") int cashbookId) {
-		return this.cashbookRepository.findById(cashbookId)
-				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + cashbookId));
+		return this.cashbookRepository.findById(cashbookId).orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with client id :" + cashbookId));
 	}
 
 	// update cashbook
 	@PutMapping("/update/{cashbookId}")
-	public Cashbook updateCashbook(@RequestBody Cashbook cashbook, @PathVariable("cashbookId") int cashbookId) {
-		Cashbook existingCashbook = this.cashbookRepository.findById(cashbookId)
-				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + cashbookId));
-		existingCashbook.setCashbookId(cashbook.getCashbookId());
-		//existingCashbook.setDateTime(cashbook.getDateTime());
-		existingCashbook.setDescription(cashbook.getDescription());
-		existingCashbook.setType(cashbook.getType());
-		existingCashbook.setValue(cashbook.getValue());
-		return this.cashbookRepository.save(existingCashbook);
+	public Cashbook updateCashbook(@RequestBody Cashbook cashbook) {
+
+		return this.cashbookRepository.save(cashbook);
 	}
 
 	// delete cashbook by id
 	@DeleteMapping("/delete/{cashbookId}")
-	public ResponseEntity<Cashbook> deleteCashbook(@PathVariable("cashbookId") int cashbookId) {
-		Cashbook existingCashbook = this.cashbookRepository.findById(cashbookId)
-				.orElseThrow(() -> new ResourceNotFoundException("Cashbook not found with id :" + cashbookId));
-		this.cashbookRepository.delete(existingCashbook);
-		return ResponseEntity.ok().build();
+	public void deleteCashbook(@PathVariable("cashbookId") Cashbook cashbookId) {
+		cashbookRepository.delete(cashbookId);
+
 	}
 }
