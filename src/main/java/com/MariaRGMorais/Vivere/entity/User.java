@@ -1,22 +1,24 @@
 package com.MariaRGMorais.Vivere.entity;
 
 import java.io.Serializable;
+import java.time.Clock;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 
 	/**
 	 * 
@@ -27,8 +29,9 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
 
-	@Column(name = "dateTime", columnDefinition = "DATETIME")
-	public String dateTime;
+	@Column(name = "dateTime", columnDefinition = "datetime")
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date dateTime;
 
 	@Column(name = "name", nullable = false, length = 30)
 	private String name;
@@ -45,21 +48,17 @@ public class User implements Serializable{
 	@Column(name = "phone", nullable = false, length = 11)
 	private String phone;
 
-	@Enumerated(EnumType.STRING)
+	
 	@Column(name = "status", columnDefinition = "enum('A','O')", nullable = false, length = 1)
-	private Type status;
+	private String status;
 
-	@Enumerated(EnumType.STRING)
+	
 	@Column(name = "type", columnDefinition = "enum('A','C')", nullable = false, length = 1)
-	private Type type;
+	private String type;
 
-	public enum Status {
-		A, O;
 
-	}
+	
 
-	public enum Type {
-		A, C;
+	
 
-	}
 }

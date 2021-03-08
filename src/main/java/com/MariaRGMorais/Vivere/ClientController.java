@@ -2,6 +2,7 @@ package com.MariaRGMorais.Vivere;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +37,11 @@ public class ClientController {
 		return this.clientRepository.save(client);
 	}
 
-	// get clients (transformar em all)
+	// get all clients 
 	@GetMapping("/allClients")
-	public Client getClientById(@PathVariable(value = "clientId") int clientId) {
-		return this.clientRepository.findById(clientId)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + clientId));
+	public List <Client> getAllClients(){
+		return this.clientRepository.findAll();
+		
 	}
 
 	// get client by cpfcnpj
