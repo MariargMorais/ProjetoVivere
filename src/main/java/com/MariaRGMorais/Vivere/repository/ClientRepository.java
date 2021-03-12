@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.MariaRGMorais.Vivere.entity.Client;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Integer>{
+public interface ClientRepository extends JpaRepository<Client, Integer> {
 
-Client findByCpfcnpj(String clientCpfcnpj);
+	Client findByCpfcnpj(String clientCpfcnpj);
+
 }

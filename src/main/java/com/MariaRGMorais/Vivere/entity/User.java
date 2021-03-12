@@ -1,7 +1,6 @@
 package com.MariaRGMorais.Vivere.entity;
 
 import java.io.Serializable;
-import java.time.Clock;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,12 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Data
+
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -27,10 +24,10 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userId;
+	private int id;
 
-	@Column(name = "dateTime", columnDefinition = "datetime")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dateTime")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	public Date dateTime;
 
 	@Column(name = "name", nullable = false, length = 30)
@@ -48,17 +45,82 @@ public class User implements Serializable {
 	@Column(name = "phone", nullable = false, length = 11)
 	private String phone;
 
-	
-	@Column(name = "status", columnDefinition = "enum('A','O')", nullable = false, length = 1)
+	@Column(name = "status", columnDefinition = "enum('A','C')", nullable = false, length = 1)
 	private String status;
 
-	
-	@Column(name = "type", columnDefinition = "enum('A','C')", nullable = false, length = 1)
+	@Column(name = "type", columnDefinition = "enum('A','O')", nullable = false, length = 1)
 	private String type;
 
+	public int getId() {
+		return id;
+	}
 
-	
+	public Date getDateTime() {
+		return dateTime;
+	}
 
-	
+	public String getName() {
+		return name;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 }

@@ -1,46 +1,30 @@
 package com.MariaRGMorais.Vivere.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Data
 @Entity
 @Table(name = "clients")
-public class Client implements Serializable{
-	
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Client implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JoinColumn(name = "clientId", referencedColumnName = "codClient")
-	private int clientId;
-	
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "clientFK", nullable = false)
-	private List<Cashbook> cashbook;
+	private int id;
 
-	@Column(name = "dateTime", columnDefinition = "DATETIME")
-	private String dateTime;
+	@Column(name = "dateTime")
+	@JsonFormat(pattern = "dd/MM/yyyy hh:mm")
+	private Date dateTime;
 
 	@Column(name = "name", nullable = false, length = 30)
 	private String name;
@@ -65,4 +49,85 @@ public class Client implements Serializable{
 
 	@Column(name = "email", nullable = false, length = 100)
 	private String email;
+
+	public Date getDateTime() {
+		return dateTime;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getCpfcnpj() {
+		return cpfcnpj;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setCpfcnpj(String cpfcnpj) {
+		this.cpfcnpj = cpfcnpj;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 }
